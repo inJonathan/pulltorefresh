@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Swiper demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="css/swiper-3.3.1.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <script src="js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/swiper.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="box">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="content">
+                                <h3>《再别康桥》</h3>
+                                <p>轻轻的我走了，</p>
+                                <p>正如我轻轻的来；</p>
+                                <p>我轻轻的招手，</p>
+                                <p>作别西天的云彩。</p>
+                                <p>那河畔的金柳，</p>
+                                <p>是夕阳中的新娘；</p>
+                                <p>波光里的艳影，</p>
+                                <p>在我的心头荡漾。</p>
+                                <p>软泥上的青荇，</p>
+                                <p>油油的在水底招摇；</p>
+                                <p>在康桥的柔波里，</p>
+                                <p>我甘心做一条水草！</p>
+                                <p>那榆荫下的一潭，</p>
+                                <p>不是清泉，是天上虹，</p>
+                                <p>揉碎在浮藻间，</p>
+                                <p>沉淀着彩虹似的梦。</p>
+                            </div>
+                            <div class="tip">上拉加载更多</div>
+                        </div>
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var loadFlag = true;
+            var count = 0;
+            var showCount = 5; // 每次加载展示个数
+            var mySwiper = new Swiper('.swiper-container', {
+                scrollbar: '.swiper-scrollbar',
+                direction: 'vertical',
+                slidesPerView: 'auto',
+                mousewheelControl: true,
+                freeMode: true,
+                // 监听滚动事件
+                onTouchEnd: function(swiper) {
+                    var _viewHeight = document.getElementsByClassName('swiper-wrapper')[0].offsetHeight;
+                    var _contentHeight = document.getElementsByClassName('swiper-slide')[0].offsetHeight;
+                    if(mySwiper.translate <= _viewHeight - _contentHeight - 40 && loadFlag) {
+                        // console.log("已经到达底部！");
+                        $(".tip").text('正在加载...');
+                        $.get("data.json", function(data, status) {
+                            setTimeout(function() {
+                                if(status == 'success') {
+                                    for(var i = 0; i < showCount; i++) {
+                                        var _item = $('<p>' + data.poem[i + count] + '</p>');
+                                        $(".content").append(_item);
+                                    }
+                                    count += showCount;
+                                    if(count > data.poem.length - showCount) {
+                                        showCount = data.poem.length - count;
+                                    }
+                                    if(showCount == 0) {
+                                        loadFlag = false;
+                                        $(".tip").text('已经没有更多数据了');
+                                    } else {
+                                        $(".tip").text('上拉加载更多');
+                                    }
+                                    mySwiper.update(); // 重新计算高度;
+                                }
+                            }, 800);
+                        }, "json");
+                    }
+                }
+            });
+        </script>
+    </body>
+
+</html>
