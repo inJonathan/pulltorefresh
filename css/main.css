@@ -27,26 +27,53 @@ ul {
     border-radius: 30px;
 }
 .swiper-container {
+    position: relative;
     width: 100%;
     height: 100%;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 .swiper-slide {
+    position: relative;
     height: auto;
+    background-color: #fff;
+}
+.content-wrap {
+    position: relative;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 15px;
-    padding-bottom: 0;
+    padding-bottom: 5px;
+}
+.content {
+    position: relative;
+    display: none;
+}
+.content h3 {
+    margin: 10px 0;
 }
 .content p {
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
-.tip {
+.loadtip {
+    display: none;
     width: 100%;
     margin: 8px 0;
     padding: 5px 0;
     text-align: center;
     color: #999;
     border-top: 1px solid #ddd;
+}
+.refreshtip {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+    color: #999;
+}
+.init-loading {
+    width: 100%;
+    text-align: center;
+    color: #999;
 }
